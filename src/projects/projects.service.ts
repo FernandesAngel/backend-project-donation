@@ -39,6 +39,8 @@ export class ProjectsService {
     id: string,
     updateProjectDto: UpdateProjectDto,
   ): Promise<Project> {
-    return this.projectsModel.findByIdAndUpdate(id, updateProjectDto);
+    return this.projectsModel.findByIdAndUpdate(id, updateProjectDto, {
+      new: true,
+    });
   }
 }

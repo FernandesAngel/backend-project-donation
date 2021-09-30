@@ -32,6 +32,7 @@ export class UsersController {
     name: string;
     jwtToken: string;
     email: string;
+    _id: string;
   }> {
     return this.usersService.signin(signinDto);
   }

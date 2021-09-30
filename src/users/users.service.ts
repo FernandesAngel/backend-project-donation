@@ -24,6 +24,7 @@ export class UsersService {
     name: string;
     jwtToken: string;
     email: string;
+    _id: string;
   }> {
     const user = await this.findByEmail(signinDto.email);
     const match = await this.checkPassword(signinDto.password, user);
@@ -35,6 +36,7 @@ export class UsersService {
       name: user.name,
       jwtToken,
       email: user.email,
+      _id: user._id,
     };
   }
 
@@ -58,6 +60,6 @@ export class UsersService {
   }
 
   public async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-    return this.usersModel.findByIdAndUpdate(id, updateUserDto);
+    return this.usersModel.findByIdAndUpdate(id, updateUserDto, { new: true });
   }
 }

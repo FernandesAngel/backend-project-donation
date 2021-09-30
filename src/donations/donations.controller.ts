@@ -21,11 +21,14 @@ export class DonationsController {
   constructor(private readonly donationsService: DonationsService) {}
 
   @Get()
+  @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
   public async findAll(): Promise<Donation[]> {
     return this.donationsService.findAll();
   }
+
   @Get('project/:id')
+  @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
   public async findByProject(
     @Param('id') id: mongoose.Schema.Types.ObjectId,
@@ -34,21 +37,8 @@ export class DonationsController {
   }
 
   @Post('create')
-  @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.CREATED)
   public async create(@Body() donationDto: DonationDto): Promise<Donation> {
     return this.donationsService.create(donationDto);
-  }
-
-  @Patch(':id')
-  @UseGuards(AuthGuard('jwt'))
-  @HttpCode(HttpStatus.OK)
-  public async update(
-    @Param('id') id: string,
-    @Body() updateDonationDto: UpdateDonationDto,
-  ): Promise<Donation> {
-    const project = await this.donationsService.update(id, updateDonationDto);
-
-    return project;
   }
 }
