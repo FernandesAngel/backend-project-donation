@@ -9,5 +9,8 @@ export class ProjectDto {
   @IsString()
   description: string;
 
+  image: string;
+
+  status: boolean;
   createdAt: Date;
 }

@@ -4,5 +4,9 @@ export interface Project extends mongoose.Document {
   description: string;
   user: mongoose.Schema.Types.ObjectId;
 
+  image: string;
+  imageUrl: string;
+
+  status: boolean;
   createdAt: Date;
 }

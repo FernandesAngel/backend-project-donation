@@ -4,6 +4,7 @@ import { HttpException, Injectable, HttpStatus } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Project } from './models/projects.model';
 import * as mongoose from 'mongoose';
+import { HelpersFile } from 'src/shared/helpersFile';
 
 @Injectable()
 export class ProjectsService {
@@ -42,5 +43,25 @@ export class ProjectsService {
     return this.projectsModel.findByIdAndUpdate(id, updateProjectDto, {
       new: true,
     });
+  }
+  public async updateStatus(
+    id: string,
+    updateProjectDto: UpdateProjectDto,
+  ): Promise<Project> {
+    return this.projectsModel.findByIdAndUpdate(id, updateProjectDto, {
+      new: true,
+    });
+  }
+
+  public async updateImage(file: string, id: string) {
+    const projectImage = await this.projectsModel.findById(id);
+    if (projectImage.image) {
+      await HelpersFile.removeFile(projectImage.image);
+    }
+    return this.projectsModel.findByIdAndUpdate(
+      id,
+      { image: file },
+      { new: true },
+    );
   }
 }

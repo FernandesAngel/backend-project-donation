@@ -7,6 +7,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as bcrypt from 'bcrypt';
 import { Model } from 'mongoose';
 import { User } from './models/users.model';
+import { HelpersFile } from 'src/shared/helpersFile';
+import * as mongoose from 'mongoose';
 @Injectable()
 export class UsersService {
   constructor(
@@ -61,5 +63,17 @@ export class UsersService {
 
   public async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     return this.usersModel.findByIdAndUpdate(id, updateUserDto, { new: true });
+  }
+
+  public async updateAvatar(file: string, id: string) {
+    const userAvatar = await this.usersModel.findById(id);
+    if (userAvatar.avatar) {
+      await HelpersFile.removeFile(userAvatar.avatar);
+    }
+    return this.usersModel.findByIdAndUpdate(
+      id,
+      { avatar: file },
+      { new: true },
+    );
   }
 }
