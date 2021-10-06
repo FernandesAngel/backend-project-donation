@@ -27,9 +27,19 @@ export class ProjectsService {
   public async findAll(): Promise<Project[]> {
     return this.projectsModel.find().populate('user');
   }
+  public async findAllPublic(): Promise<Project[]> {
+    return this.projectsModel.find({ status: true }).populate('user');
+  }
 
   public async findOne(id: string): Promise<Project> {
     const project = this.projectsModel.findById(id);
+    if (!project) {
+      throw new HttpException(`Projeto não encontrado`, HttpStatus.NOT_FOUND);
+    }
+    return project;
+  }
+  public async findOneBySlug(slug: string): Promise<Project> {
+    const project = await this.projectsModel.findOne({ slug, status: true });
     if (!project) {
       throw new HttpException(`Projeto não encontrado`, HttpStatus.NOT_FOUND);
     }

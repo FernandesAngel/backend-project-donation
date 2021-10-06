@@ -28,6 +28,7 @@ export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
   @Get(':id')
+  @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
   public async findOne(@Param('id') id: string): Promise<Project> {
     return this.projectsService.findOne(id);
@@ -44,6 +45,7 @@ export class ProjectsController {
   }
 
   @Get()
+  @UseGuards(AuthGuard('jwt'))
   @HttpCode(HttpStatus.OK)
   public async findAll(): Promise<Project[]> {
     return this.projectsService.findAll();

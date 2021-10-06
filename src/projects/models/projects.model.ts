@@ -8,5 +8,6 @@ export interface Project extends mongoose.Document {
   imageUrl: string;
 
   status: boolean;
+  slug: string;
   createdAt: Date;
 }

@@ -22,6 +22,10 @@ export const ProjectsSchema = new mongoose.Schema(
       type: Date,
       default: Date.now,
     },
+    slug: {
+      type: String,
+      unique: true,
+    },
     status: {
       type: Boolean,
       default: true,
@@ -40,3 +44,19 @@ ProjectsSchema.virtual('imageUrl').get(function () {
   const newImage = this.image.split('/');
   return `${process.env.BASE_URL}/projects/project/${newImage[2]}`;
 });
+
+ProjectsSchema.pre('save', function (next) {
+  this.slug = slugify(this.name);
+  next();
+});
+
+function slugify(text) {
+  return text
+    .toString()
+    .toLowerCase()
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(/[^\w\-]+/g, '') // Remove all non-word chars
+    .replace(/\-\-+/g, '-') // Replace multiple - with single -
+    .replace(/^-+/, '') // Trim - from start of text
+    .replace(/-+$/, ''); // Trim - from end of text
+}

@@ -1,3 +1,4 @@
+import { ProjectsPublicController } from './projects-public.controller';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProjectsController } from './projects.controller';
@@ -13,7 +14,7 @@ import { ProjectsSchema } from './schemas/project.schemas';
       },
     ]),
   ],
-  controllers: [ProjectsController],
+  controllers: [ProjectsController, ProjectsPublicController],
   providers: [ProjectsService],
   exports: [ProjectsService],
 })
