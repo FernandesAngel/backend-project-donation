@@ -27,6 +27,7 @@ export class UsersService {
     jwtToken: string;
     email: string;
     _id: string;
+    avatarUrl: string;
   }> {
     const user = await this.findByEmail(signinDto.email);
     const match = await this.checkPassword(signinDto.password, user);
@@ -39,6 +40,7 @@ export class UsersService {
       jwtToken,
       email: user.email,
       _id: user._id,
+      avatarUrl: user.avatarUrl,
     };
   }
 
